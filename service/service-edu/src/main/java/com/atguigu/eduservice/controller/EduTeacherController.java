@@ -32,11 +32,6 @@ public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
 
-    /**
-     * 获取所有讲师列表
-     *
-     * @return
-     */
     @GetMapping()
     @ApiOperation("所有讲师列表")
     public R list() {
@@ -58,13 +53,6 @@ public class EduTeacherController {
         return flag ? R.ok() : R.error();
     }
 
-    /**
-     * 讲师列表分页查询
-     *
-     * @param page
-     * @param limit
-     * @return
-     */
     @GetMapping("{page}/{limit}")
     @ApiOperation(value = "分页获取讲师列表")
     public R pageList(@ApiParam(name = "page", value = "当前页码", required = true)
@@ -76,23 +64,16 @@ public class EduTeacherController {
         return R.ok().data("total", res.getTotal()).data("rows", res.getRecords());
     }
 
-    /**
-     * 多条件分页获取讲师列表
-     * @param page
-     * @param limit
-     * @param teacherQuery
-     * @return
-     */
     @PostMapping("pageCondition/{page}/{limit}")
     @ApiOperation(value = "多条件分页获取讲师列表")
     public R pageCondition(@ApiParam(name = "page",value = "当前页码",required = true) @PathVariable("page") Long page,
                            @ApiParam(name = "limit",value = "每页记录数",required = true) @PathVariable("limit") Long limit,
                            @RequestBody(required = false) TeacherQuery teacherQuery){
         Page<EduTeacher> teacherPage = new Page<>(page,limit);
-        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<EduTeacher>();
         if(teacherQuery == null){
             return pageList(page,limit);
         }
+        QueryWrapper<EduTeacher> wrapper = new QueryWrapper<EduTeacher>();
         if(StringUtils.isNotBlank(teacherQuery.getName())){
             wrapper.like("name",teacherQuery.getName());
         }
@@ -105,8 +86,31 @@ public class EduTeacherController {
         if(StringUtils.isNotBlank(teacherQuery.getEnd())){
             wrapper.le("gmt_create",teacherQuery.getEnd());
         }
-        IPage<EduTeacher> res = eduTeacherService.page(teacherPage, wrapper);
-        return R.ok().data("total",res.getTotal()).data("rows",res.getRecords());
+        eduTeacherService.page(teacherPage, wrapper);
+        return R.ok().data("total",teacherPage.getTotal()).data("rows",teacherPage.getRecords());
+    }
+
+    @ApiOperation(value="新增讲师")
+    @PostMapping("addTeacher")
+    public R save(@ApiParam(name="teacher",value = "讲师对象",required = true) @RequestBody EduTeacher eduTeacher){
+        eduTeacherService.save(eduTeacher);
+        return R.ok();
+    }
+
+    @GetMapping("{id}")
+    @ApiOperation(value = "根据ID查询讲师")
+    public R getById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id){
+        EduTeacher teacher = eduTeacherService.getById(id);
+        return R.ok().data("item",teacher);
+    }
+
+    @ApiOperation("根据ID修改讲师")
+    @PutMapping("{id}")
+    public R updateById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id,
+                        @RequestBody EduTeacher teacher){
+        teacher.setId(id);
+        boolean b = eduTeacherService.updateById(teacher);
+        return b ? R.ok() : R.error();
     }
 }
 
