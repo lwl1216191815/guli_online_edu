@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/eduservice/edu-teacher")
 @Api(tags = {"讲师前端控制器"})
+@CrossOrigin
 public class EduTeacherController {
     @Autowired
     private EduTeacherService eduTeacherService;
@@ -56,7 +57,7 @@ public class EduTeacherController {
     @GetMapping("{page}/{limit}")
     @ApiOperation(value = "分页获取讲师列表")
     public R pageList(@ApiParam(name = "page", value = "当前页码", required = true)
-                          @PathVariable("page") Long page,
+                      @PathVariable("page") Long page,
                       @ApiParam(name = "limit", value = "每页记录数", required = true)
                       @PathVariable("limit") Long limit) {
         Page<EduTeacher> pageTeacher = new Page<>(page, limit);
@@ -66,48 +67,48 @@ public class EduTeacherController {
 
     @PostMapping("pageCondition/{page}/{limit}")
     @ApiOperation(value = "多条件分页获取讲师列表")
-    public R pageCondition(@ApiParam(name = "page",value = "当前页码",required = true) @PathVariable("page") Long page,
-                           @ApiParam(name = "limit",value = "每页记录数",required = true) @PathVariable("limit") Long limit,
-                           @RequestBody(required = false) TeacherQuery teacherQuery){
-        Page<EduTeacher> teacherPage = new Page<>(page,limit);
-        if(teacherQuery == null){
-            return pageList(page,limit);
+    public R pageCondition(@ApiParam(name = "page", value = "当前页码", required = true) @PathVariable("page") Long page,
+                           @ApiParam(name = "limit", value = "每页记录数", required = true) @PathVariable("limit") Long limit,
+                           @RequestBody(required = false) TeacherQuery teacherQuery) {
+        Page<EduTeacher> teacherPage = new Page<>(page, limit);
+        if (teacherQuery == null) {
+            return pageList(page, limit);
         }
         QueryWrapper<EduTeacher> wrapper = new QueryWrapper<EduTeacher>();
-        if(StringUtils.isNotBlank(teacherQuery.getName())){
-            wrapper.like("name",teacherQuery.getName());
+        if (StringUtils.isNotBlank(teacherQuery.getName())) {
+            wrapper.like("name", teacherQuery.getName());
         }
-        if(teacherQuery.getLevel() != null){
-            wrapper.eq("level",teacherQuery.getLevel());
+        if (teacherQuery.getLevel() != null) {
+            wrapper.eq("level", teacherQuery.getLevel());
         }
-        if(StringUtils.isNotBlank(teacherQuery.getBegin())){
-            wrapper.ge("gmt_create",teacherQuery.getBegin());
+        if (StringUtils.isNotBlank(teacherQuery.getBegin())) {
+            wrapper.ge("gmt_create", teacherQuery.getBegin());
         }
-        if(StringUtils.isNotBlank(teacherQuery.getEnd())){
-            wrapper.le("gmt_create",teacherQuery.getEnd());
+        if (StringUtils.isNotBlank(teacherQuery.getEnd())) {
+            wrapper.le("gmt_create", teacherQuery.getEnd());
         }
         eduTeacherService.page(teacherPage, wrapper);
-        return R.ok().data("total",teacherPage.getTotal()).data("rows",teacherPage.getRecords());
+        return R.ok().data("total", teacherPage.getTotal()).data("rows", teacherPage.getRecords());
     }
 
-    @ApiOperation(value="新增讲师")
+    @ApiOperation(value = "新增讲师")
     @PostMapping("addTeacher")
-    public R save(@ApiParam(name="teacher",value = "讲师对象",required = true) @RequestBody EduTeacher eduTeacher){
+    public R save(@ApiParam(name = "teacher", value = "讲师对象", required = true) @RequestBody EduTeacher eduTeacher) {
         eduTeacherService.save(eduTeacher);
         return R.ok();
     }
 
     @GetMapping("{id}")
     @ApiOperation(value = "根据ID查询讲师")
-    public R getById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id){
+    public R getById(@ApiParam(name = "id", value = "讲师ID", required = true) @PathVariable String id) {
         EduTeacher teacher = eduTeacherService.getById(id);
-        return R.ok().data("item",teacher);
+        return R.ok().data("item", teacher);
     }
 
     @ApiOperation("根据ID修改讲师")
     @PutMapping("{id}")
-    public R updateById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id,
-                        @RequestBody EduTeacher teacher){
+    public R updateById(@ApiParam(name = "id", value = "讲师ID", required = true) @PathVariable String id,
+                        @RequestBody EduTeacher teacher) {
         teacher.setId(id);
         boolean b = eduTeacherService.updateById(teacher);
         return b ? R.ok() : R.error();
