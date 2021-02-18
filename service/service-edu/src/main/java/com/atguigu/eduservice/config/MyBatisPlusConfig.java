@@ -19,11 +19,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class MyBatisPlusConfig {
     /**
      * sql性能分析器插件
+     *
      * @return
      */
     @Bean
-    @Profile({"dev","test"})
-    public PerformanceInterceptor performanceInterceptor(){
+    @Profile({"dev", "test"})
+    public PerformanceInterceptor performanceInterceptor() {
         PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
         performanceInterceptor.setMaxTime(10000);
         performanceInterceptor.setFormat(true);
@@ -32,19 +33,21 @@ public class MyBatisPlusConfig {
 
     /**
      * mybatis-plus逻辑删除插件
+     *
      * @return
      */
     @Bean
-    public ISqlInjector iSqlInjector(){
+    public ISqlInjector iSqlInjector() {
         return new LogicSqlInjector();
     }
 
     /**
      * 分页插件
+     *
      * @return
      */
     @Bean
-    public PaginationInterceptor paginationInterceptor(){
+    public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
 }
