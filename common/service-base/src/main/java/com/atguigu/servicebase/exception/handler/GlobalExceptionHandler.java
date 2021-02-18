@@ -16,12 +16,13 @@ public class GlobalExceptionHandler {
 
     /**
      * 通用异常处理
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public R error(Exception e){
+    public R error(Exception e) {
         log.error(e.getMessage());
         e.printStackTrace();
         return R.error().message("执行了通用异常处理");
@@ -29,12 +30,13 @@ public class GlobalExceptionHandler {
 
     /**
      * 除数为0的异常处理
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(ArithmeticException.class)
     @ResponseBody
-    public R error(ArithmeticException e){
+    public R error(ArithmeticException e) {
         log.error(e.getMessage());
         e.printStackTrace();
         return R.error().message("出现了除数为0的异常");
@@ -42,12 +44,13 @@ public class GlobalExceptionHandler {
 
     /**
      * 自定义异常处理
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(GuliException.class)
     @ResponseBody
-    public R error(GuliException e){
+    public R error(GuliException e) {
         log.error(e.getMessage());
         e.printStackTrace();
         return R.error().message(e.getMsg()).code(e.getCode());
