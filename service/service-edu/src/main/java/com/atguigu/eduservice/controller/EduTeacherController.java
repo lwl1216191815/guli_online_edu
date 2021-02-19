@@ -87,6 +87,7 @@ public class EduTeacherController {
         if (StringUtils.isNotBlank(teacherQuery.getEnd())) {
             wrapper.le("gmt_create", teacherQuery.getEnd());
         }
+        wrapper.orderByDesc("gmt_create");
         eduTeacherService.page(teacherPage, wrapper);
         return R.ok().data("total", teacherPage.getTotal()).data("rows", teacherPage.getRecords());
     }
