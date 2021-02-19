@@ -34,5 +34,16 @@ export default{
             method:'post',
             data:teacher
         });
-    }
+    },
+  /**
+   * 根据ID获取讲师信息
+   * @param id
+   */
+  getTeacherInfo(id){
+    return request({
+      url:`eduservice/edu-teacher/${id}`,
+      method:'get',
+      data:id``
+    });
+  }
 }
