@@ -49,12 +49,33 @@ export default {
         }
     },
     created(){
-
+      this.init();
     },
+  watch:{
+    $route(to,from){
+      this.init();
+    }
+  },
     methods:{
-      saveOrUpdate(){
-        this.saveTeacher();
+      init(){
+        if(this.$route.params && this.$route.params.id){
+          const id = this.$route.params.id;
+          this.getInfo(id);
+        }else{
+          this.teacher = {};
+        }
       },
+      saveOrUpdate(){
+        if(this.teacher.id){
+          this.updateTeacher();
+        }else{
+          this.saveTeacher();
+        }
+      },
+      /**
+       * 新增讲师信息
+       * @param id
+       */
       saveTeacher(){
         teacherApi.addTeacher(this.teacher).then(
           response => {
@@ -62,6 +83,28 @@ export default {
             this.$router.push({path:'/teacher/table'});
           }
         )
+      },
+      /**
+       * 回显讲师信息
+       * @param id
+       */
+      getInfo(id){
+        teacherApi.getTeacherInfo(id).then(
+          response => {
+            this.teacher = response.data.item;
+          }
+        )
+      },
+      /**
+       * 修改讲师的方法
+       */
+      updateTeacher(){
+        teacherApi.updateTeacher(this.teacher).then(
+          response => {
+            this.$message({type:'success',message:'修改成功'});
+            this.$router.push({path:'/teacher/table'});
+          }
+        );
       }
     }
 }
