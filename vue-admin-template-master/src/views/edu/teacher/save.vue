@@ -27,7 +27,27 @@
       <el-form-item label="讲师简介">
         <el-input v-model="teacher.intro" :rows="10" type="textarea" />
       </el-form-item>
-      <!-- 讲师头像：TODO -->
+
+      <el-form-item label="讲师头像">
+        <pan-thumb :image="teacher.avatar"/>
+        <el-button type="primary" icon="el-icon-upload" @click="imagecropperShow=true">更换头像
+        </el-button>
+        <!--
+    v-show：是否显示上传组件
+    :key：类似于id，如果一个页面多个图片上传控件，可以做区分
+    :url：后台上传的url地址
+    @close：关闭上传组件
+    @crop-upload-success：上传成功后的回调 -->
+        <image-cropper
+          v-show="imagecropperShow"
+          :width="300"
+          :height="300"
+          :key="imagecropperKey"
+          :url="BASE_API+'/eduOss/fileOss'"
+          field="file"
+          @close="close"
+          @crop-upload-success="cropSuccess"/>
+      </el-form-item>
       <el-form-item>
         <el-button
           :disabled="saveBtnDisabled"
@@ -40,12 +60,18 @@
   </div>
 </template>
 <script>
-import teacherApi from '@/api/edu/teacher'
+import teacherApi from '@/api/edu/teacher';
+import ImageCropper from '@/components/ImageCropper';
+import PanThumb from '@/components/PanThumb';
 export default {
+  components: { ImageCropper, PanThumb },
     data() {
         return {
             teacher:{},
-            saveBtnDisabled:false
+            saveBtnDisabled:false,//保存按钮是否禁用
+          imagecropperShow:false,//上传弹框组件是否显示
+          BASE_API:process.env.BASE_API,
+          imagecropperKey:0,//上传组件key值
         }
     },
     created(){
@@ -105,6 +131,20 @@ export default {
             this.$router.push({path:'/teacher/table'});
           }
         );
+      },
+      /**
+       * 关闭上传弹窗的方法
+       */
+      close(){
+        this.imagecropperShow = false;
+        this.imagecropperKey += 1;
+      },
+      /**
+       * 上传成功后的执行方法
+       */
+      cropSuccess(data){
+        this.close();
+        this.teacher.avatar = data.url;
       }
     }
 }
