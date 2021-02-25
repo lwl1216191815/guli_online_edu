@@ -1,6 +1,8 @@
 package com.atguigu.eduservice.controller;
 
 import com.atguigu.common.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -9,12 +11,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/eduservice/user")
 @CrossOrigin
+@Api(tags = {"登录控制器"})
 public class EduLoginController {
     /**
      * 登录方法，返回token
      * @return
      */
     @PostMapping("login")
+    @ApiOperation("登录")
     public R login(){
         return R.ok().data("token","admin");
     }
@@ -24,6 +28,7 @@ public class EduLoginController {
      * @return
      */
     @GetMapping("info")
+    @ApiOperation("获取用户信息")
     public R info(){
         Map<String,Object> data = new HashMap<>();
         data.put("roles","[admin]");
