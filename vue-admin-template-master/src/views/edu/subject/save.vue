@@ -5,7 +5,7 @@
         <el-tag type="info">excel模版说明</el-tag>
         <el-tag>
           <i class="el-icon-download"/>
-          <a :href=" '/static/01.xlsx'">点击下载模版</a>
+          <a :href="'/static/01.xlsx'">点击下载模版</a>
         </el-tag>
       </el-form-item>
       <el-form-item label="选择Excel">
@@ -16,7 +16,7 @@
           :on-error="fileUploadError"
           :disabled="importBtnDisabled"
           :limit="1"
-          :action="BASE_API+'/admin/edu/subject/import'"
+          :action="BASE_API+'/eduservice/edu-subject/importSubject'"
           name="file"
           accept="application/vnd.ms-excel">
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -45,6 +45,35 @@
 
     },
     methods:{
+      /**
+       * 点击按钮，将文件上传到接口中
+       */
+      submitUpload(){
+        this.importBtnDisabled = true;
+        this.loading = true;
+        this.$refs.upload.submit();
+      },
+      /**
+       * 文件上传成功的回调方法
+       */
+      fileUploadSuccess(){
+        this.loading = false;
+        this.$message({
+          type:'success',
+          message:'上传课程分类成功'
+        });
+      },
+      /**
+       * 文件上传失败的回调方法
+       */
+      fileUploadError(){
+        this.loading = false;
+        this.$message({
+          type:'error',
+          message:'上传课程分类失败'
+        });
+        this.$router.push({path:''})
+      }
 
     }
   }
