@@ -26,7 +26,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
     @Override
-    public void saveCourse(CourseVo vo) {
+    public String saveCourse(CourseVo vo) {
         EduCourse entity = new EduCourse();
         BeanUtils.copyProperties(vo,entity);
         int insert = baseMapper.insert(entity);
@@ -37,5 +37,6 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         description.setDescription(vo.getDescription());
         description.setId(entity.getId());
         eduCourseDescriptionService.save(description);
+        return entity.getId();
     }
 }
