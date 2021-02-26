@@ -28,8 +28,8 @@ public class EduCourseController {
     @PostMapping("/addCourse")
     @ApiOperation("添加课程")
     public R addCourse(@RequestBody CourseVo vo){
-        eduCourseService.saveCourse(vo);
-        return R.ok();
+        String courseId = eduCourseService.saveCourse(vo);
+        return R.ok().data("courseId",courseId);
     }
 }
 
