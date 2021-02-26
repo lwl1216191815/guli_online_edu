@@ -6,7 +6,7 @@ export default {
    */
   addCourse(courseInfo) {
     return request({
-      url: `eduservice/edu-course`,
+      url: `eduservice/edu-course/addCourse`,
       method: 'post',
       data: courseInfo
     });
