@@ -55,5 +55,14 @@ export default{
       method:'put',
       data:teacher
     });
+  },
+  /**
+   * 获取所有讲师
+   */
+  getAllTeacher(){
+    return request({
+      url:`eduservice/edu-teacher`,
+      method:'get',
+    });
   }
 }
