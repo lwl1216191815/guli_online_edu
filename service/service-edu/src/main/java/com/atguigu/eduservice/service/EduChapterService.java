@@ -21,4 +21,11 @@ public interface EduChapterService extends IService<EduChapter> {
      * @return
      */
     List<CourseTreeNode> getTreeByCourseId(String courseId);
+
+    /**
+     * 根据章节ID删除章节
+     * @param chapterId
+     * @return
+     */
+    boolean deleteChapterById(String chapterId);
 }
