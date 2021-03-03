@@ -82,7 +82,8 @@
       return {
         saveBtnDisabled: false, // 保存按钮是否禁用
         courseInfo:{
-          cover:'/static/01.jpg'
+          cover:'/static/01.jpg',
+          id:''
         },
         teacherList:[],
         parentSubjectList:[],
@@ -91,20 +92,20 @@
       }
     },
     created() {
-      this.getAllTeacher();
-      this.getSubjectList();
+      this.init();
+    },
+    watch:{
+      $route(to,from){
+        this.init();
+      }
     },
     methods: {
       saveOrUpdate(){
-        courseApi.addCourse(this.courseInfo).then(
-          response => {
-            this.$message({
-              type:'success',
-              message:'添加课程成功'
-            });
-            this.next(response.data.courseId);
-          }
-        ).catch();
+        if(this.courseInfo.id){
+          this.editCourse();
+        }else{
+          this.addCourse();
+        }
       },
       next(id) {
         this.$router.push({path: `/course/chapter/${id}`})
@@ -126,9 +127,18 @@
         subjectApi.getSubjectTree().then(
           response => {
             this.parentSubjectList = response.data.list;
-            this.courseInfo.subjectParentId=this.parentSubjectList[0].id;
-            this.subjectList = this.parentSubjectList[0].children;
-            this.courseInfo.subjectId = this.subjectList[0].id;
+            if(!this.courseInfo.subjectParentId){
+              this.subjectList = this.parentSubjectList[0].children;
+              this.courseInfo.subjectParentId=this.parentSubjectList[0].id;
+              this.courseInfo.subjectId = this.subjectList[0].id;
+            }else{
+              for(let i = 0; i < this.parentSubjectList.length; i++){
+                if(this.parentSubjectList[i].id === this.courseInfo.subjectParentId){
+                  this.subjectList = this.parentSubjectList[i].children;
+                  break;
+                }
+              }
+            }
           }
         ).catch();
       },
@@ -167,6 +177,54 @@
         if(!isLt2m){
           this.$message.error('封面大小不能大于2m');
         }
+      },
+      getCourseInfo(courseId){
+        courseApi.getCourseInfoById(courseId).then(
+          response => {
+            this.courseInfo = response.data.data;
+          }
+        ).catch();
+      },
+      init(){
+        this.getAllTeacher();
+        this.getSubjectList();
+        if(this.$route.params && this.$route.params.id){
+          this.courseInfo.id = this.$route.params.id;
+          this.getCourseInfo(this.courseInfo.id);
+        }else {
+          this.courseInfo = {
+            cover:'/static/01.jpg',
+            id:''
+          }
+        }
+      },
+      /**
+       * 添加课程
+       */
+      addCourse(){
+        courseApi.addCourse(this.courseInfo).then(
+          response => {
+            this.$message({
+              type:'success',
+              message:'添加课程成功'
+            });
+            this.next(response.data.courseId);
+          }
+        ).catch();
+      },
+      /**
+       * 修改课程信息
+       */
+      editCourse(){
+        courseApi.updateCourse(this.courseInfo).then(
+          response => {
+            this.$message({
+              type:'success',
+              message:'修改课程成功'
+            });
+            this.next(this.courseInfo.id);
+          }
+        ).catch();
       }
     }
   }
