@@ -11,4 +11,25 @@ export default {
       data: courseInfo
     });
   },
+  /**
+   * 根据ID获取课程信息
+   * @param courseId
+   */
+  getCourseInfoById(courseId){
+    return request({
+      url: `eduservice/edu-course/getCourseById/${courseId}`,
+      method: 'get'
+    });
+  },
+  /**
+   * 修改课程信息
+   * @param courseInfo 课程信息
+   */
+  updateCourse(courseInfo){
+    return request({
+      url: `eduservice/edu-course/updateCourse`,
+      method: 'put',
+      data:courseInfo
+    });
+  }
 }
