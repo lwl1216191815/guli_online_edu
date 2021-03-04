@@ -74,7 +74,7 @@ public class EduChapterController {
      * @param chapterId
      * @return
      */
-    @DeleteMapping()
+    @DeleteMapping("{chapterId}")
     @ApiOperation("删除章节")
     public R removeChapter(@PathVariable String chapterId){
         boolean x = eduChapterService.deleteChapterById(chapterId);
@@ -82,11 +82,11 @@ public class EduChapterController {
     }
 
     /**
-     * 根据ID删除章节
+     * 根据ID查询章节
      * @param chapterId
      * @return
      */
-    @GetMapping()
+    @GetMapping("{chapterId}")
     @ApiOperation("根据ID查询章节")
     public R getChapterById(@PathVariable String chapterId){
         EduChapter chapter = eduChapterService.getById(chapterId);
