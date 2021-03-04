@@ -34,6 +34,7 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
     public List<CourseTreeNode> getTreeByCourseId(String courseId) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("course_id",courseId);
+        wrapper.orderByAsc("sort");
         List<EduChapter> chapterList = baseMapper.selectList(wrapper);
         List<EduVideo> videoList = eduVideoService.list(wrapper);
         List<CourseTreeNode> res = new ArrayList<>();
