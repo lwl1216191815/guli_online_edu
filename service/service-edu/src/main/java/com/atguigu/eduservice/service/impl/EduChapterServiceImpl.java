@@ -2,7 +2,7 @@ package com.atguigu.eduservice.service.impl;
 
 import com.atguigu.eduservice.entity.EduChapter;
 import com.atguigu.eduservice.entity.EduVideo;
-import com.atguigu.eduservice.entity.vo.CourseTreeNode;
+import com.atguigu.eduservice.entity.tree.CourseTreeNode;
 import com.atguigu.eduservice.mapper.EduChapterMapper;
 import com.atguigu.eduservice.service.EduChapterService;
 import com.atguigu.eduservice.service.EduVideoService;
