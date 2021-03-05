@@ -2,7 +2,7 @@ package com.atguigu.eduservice.controller;
 
 
 import com.atguigu.common.utils.R;
-import com.atguigu.eduservice.entity.vo.SubjectTreeNode;
+import com.atguigu.eduservice.entity.tree.SubjectTreeNode;
 import com.atguigu.eduservice.service.EduSubjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
