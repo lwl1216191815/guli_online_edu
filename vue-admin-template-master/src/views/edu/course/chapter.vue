@@ -230,6 +230,7 @@
             this.dialogChapterFormVisible = false;
             this.$message({type:'success',message:'修改课程章节成功'});
             this.getChapterVideo(this.chapter.courseId);
+            this.clearChpter();
           }
         ).catch();
       },
@@ -290,6 +291,11 @@
             this.video = response.data.video;
           }
         ).catch();
+      },
+      clearChpter(){
+        this.chapter.title = '';
+        this.chapter.sort = 0;
+        this.chapter.id = '';
       }
     }
 
