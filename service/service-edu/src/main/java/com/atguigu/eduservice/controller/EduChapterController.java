@@ -3,7 +3,7 @@ package com.atguigu.eduservice.controller;
 
 import com.atguigu.common.utils.R;
 import com.atguigu.eduservice.entity.EduChapter;
-import com.atguigu.eduservice.entity.vo.CourseTreeNode;
+import com.atguigu.eduservice.entity.tree.CourseTreeNode;
 import com.atguigu.eduservice.service.EduChapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
