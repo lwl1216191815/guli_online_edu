@@ -31,5 +31,25 @@ export default {
       method: 'put',
       data:courseInfo
     });
+  },
+  /**
+   * 获取课程发布信息
+   * @param courseId 课程ID
+   */
+  getCoursePublishInfo(courseId){
+    return request({
+      url: `eduservice/edu-course/getCoursePublishInfo/${courseId}`,
+      method: 'get'
+    });
+  },
+  /**
+   * 发布课程
+   * @param courseId 课程ID
+   */
+  publish(courseId){
+    return request({
+      url: `eduservice/edu-course/publish/${courseId}`,
+      method: 'put'
+    });
   }
 }
