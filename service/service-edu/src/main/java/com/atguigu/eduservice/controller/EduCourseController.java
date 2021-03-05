@@ -1,14 +1,22 @@
 package com.atguigu.eduservice.controller;
 
 
+import com.atguigu.common.constant.biz.CourseConstant;
 import com.atguigu.common.utils.R;
+import com.atguigu.eduservice.entity.EduCourse;
+import com.atguigu.eduservice.entity.query.CourseQuery;
+import com.atguigu.eduservice.entity.vo.CourseListVo;
+import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.atguigu.eduservice.entity.vo.CourseVo;
 import com.atguigu.eduservice.service.EduCourseService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 
 /**
  * <p>
@@ -60,6 +68,50 @@ public class EduCourseController {
     public R updateCourse(@RequestBody CourseVo vo){
         eduCourseService.updateCourseByVo(vo);
         return R.ok();
+    }
+
+    /**
+     * 获取课程发布信息id
+     * @param courseId 课程ID
+     * @return
+     */
+    @GetMapping("/getCoursePublishInfo/{courseId}")
+    @ApiOperation("获取课程发布信息")
+    public R getCoursePublishInfo(@PathVariable String courseId){
+        CoursePublishVo vo = eduCourseService.getCoursePublishInfo(courseId);
+        return R.ok().data("coursePublishInfo",vo);
+    }
+
+    /**
+     * 课程发布
+     * @param courseId 课程ID
+     * @return
+     */
+    @ApiOperation("课程发布")
+    @PutMapping("/publish/{courseId}")
+    public R publish(@PathVariable String courseId){
+        EduCourse course = new EduCourse();
+        course.setId(courseId);
+        course.setStatus(CourseConstant.HAD_PUBLISHED);
+        boolean b = eduCourseService.updateById(course);
+        return b ? R.ok() : R.error();
+    }
+
+    /**
+     * 自定义分页条件查询课程
+     * @param limit 每页记录数
+     * @param page 当前页码
+     * @param query 查询对象
+     * @return
+     */
+    @PostMapping("/getPageList/{limit}/{page}")
+    @ApiOperation("根据条件，分页获取课程列表")
+    public R getPageList(@PathVariable("limit") @ApiParam("每页记录数") Integer limit,
+                         @PathVariable("page") @ApiParam("当前页码") Integer page,
+                         @RequestBody(required = false)CourseQuery query){
+        Page<CourseListVo> coursePage = new Page<>(page, limit);
+        IPage<CourseListVo> res = eduCourseService.pageList(coursePage, query);
+        return R.ok().data("total", res.getTotal()).data("rows", res.getRecords());
     }
 }
 
