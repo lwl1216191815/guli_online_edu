@@ -3,7 +3,7 @@ package com.atguigu.eduservice.controller;
 
 import com.atguigu.common.utils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
-import com.atguigu.eduservice.entity.vo.TeacherQuery;
+import com.atguigu.eduservice.entity.query.TeacherQuery;
 import com.atguigu.eduservice.service.EduTeacherService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
