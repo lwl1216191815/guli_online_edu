@@ -1,4 +1,4 @@
-package com.atguigu.eduservice.entity.vo;
+package com.atguigu.eduservice.entity.tree;
 
 import lombok.Data;
 
