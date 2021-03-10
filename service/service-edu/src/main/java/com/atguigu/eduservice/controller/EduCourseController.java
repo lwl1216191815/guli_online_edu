@@ -113,5 +113,17 @@ public class EduCourseController {
         IPage<CourseListVo> res = eduCourseService.pageList(coursePage, query);
         return R.ok().data("total", res.getTotal()).data("rows", res.getRecords());
     }
+
+    /**
+     * 根据课程ID删除课程
+     * @param courseId
+     * @return
+     */
+    @DeleteMapping("{courseId}")
+    @ApiOperation("根据ID删除课程")
+    public R removeCourse(@PathVariable String courseId){
+        eduCourseService.removeById(courseId);
+        return R.ok();
+    }
 }
 
