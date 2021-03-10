@@ -7,7 +7,7 @@ public class CoursePublishVo {
 
     private String id;
 
-    private String courseName;
+    private String title;
 
     private String teacherName;
 
@@ -22,4 +22,6 @@ public class CoursePublishVo {
     private String description;
 
     private Integer lessonNum;
+
+    private Integer viewCount;
 }
