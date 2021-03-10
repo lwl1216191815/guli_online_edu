@@ -51,5 +51,28 @@ export default {
       url: `eduservice/edu-course/publish/${courseId}`,
       method: 'put'
     });
+  },
+  /**
+   * 按照条件分页获取课程列表
+   * @param courseQuery 查询条件
+   * @param limit 每页的记录数
+   * @param page 当前页码
+   */
+  getPageList(courseQuery,limit,page){
+    return request({
+      url: `eduservice/edu-course/getPageList/${limit}/${page}`,
+      method: 'post',
+      data:courseQuery
+    });
+  },
+  /**
+   * 根据ID删除课程
+   * @param courseId
+   */
+  removeCourseById(courseId){
+    return request({
+      url: `eduservice/edu-course/${courseId}/`,
+      method: 'delete',
+    });
   }
 }
