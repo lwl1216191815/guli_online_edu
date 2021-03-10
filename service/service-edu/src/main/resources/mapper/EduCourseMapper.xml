@@ -3,9 +3,10 @@
 <mapper namespace="com.atguigu.eduservice.mapper.EduCourseMapper">
 
     <sql id="courseDetail">
-        select course.id,course.title courseName,course.price,course.cover,
+        select course.id,course.title,course.price,course.cover,
                course.lesson_num lessonNum,teacher.name teacherName,detail.description,
-               sub.title subjectName,sub_p.title subjectParentName,course.status
+               sub.title subjectName,sub_p.title subjectParentName,course.status,
+               course.view_count viewCount
         from edu_course course
                  left join edu_teacher teacher on course.teacher_id = teacher.id
                  left join edu_course_description  detail on course.id = detail.id
@@ -16,11 +17,11 @@
         <include refid="courseDetail"/>
         where course.id = #{courseId}
     </select>
-    <select id="pageList" parameterType="com.atguigu.eduservice.entity.query.CourseQuery" resultType="com.atguigu.eduservice.entity.vo.CourseListVo">
+    <select id="pageList" resultType="com.atguigu.eduservice.entity.vo.CourseListVo">
         <include refid="courseDetail"/>
         <where>
             <if test="q.titleLike != null">and course.title like concat('%',concat(#{q.titleLike},'%'))</if>
-            <if test="q.teacherId != null">and course.teacherId = #{q.teacherId}</if>
+            <if test="q.teacherId != null">and course.teacher_id = #{q.teacherId}</if>
             <if test="q.subjectParentId != null">and course.subject_parent_id = #{q.subjectParentId}</if>
             <if test="q.subjectId != null">and course.subject_id = #{q.subjectId}</if>
             <if test="q.status != null">and course.status = #{q.status}</if>
