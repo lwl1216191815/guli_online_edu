@@ -127,7 +127,7 @@
         subjectApi.getSubjectTree().then(
           response => {
             this.parentSubjectList = response.data.list;
-            if(!this.courseInfo.subjectParentId){
+            if(!this.courseInfo.id){
               this.subjectList = this.parentSubjectList[0].children;
               this.courseInfo.subjectParentId=this.parentSubjectList[0].id;
               this.courseInfo.subjectId = this.subjectList[0].id;
