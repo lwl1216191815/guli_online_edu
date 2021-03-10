@@ -44,6 +44,7 @@
         <canal.client.version>1.1.0</canal.client.version>
         <docker.image.prefix>zx</docker.image.prefix>
         <cloud-alibaba.version>0.2.2.RELEASE</cloud-alibaba.version>
+        <hutool-all-version>5.4.1</hutool-all-version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -184,6 +185,12 @@
                 <groupId>com.alibaba.otter</groupId>
                 <artifactId>canal.client</artifactId>
                 <version>${canal.client.version}</version>
+            </dependency>
+            <!--hutool工具类-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
