@@ -2,35 +2,35 @@
   <div id="app-container">
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="courseQuery.title" placeholder="课程名称" />
+      <el-form-item label="课程名称">
+        <el-input v-model="courseQuery.titleLike" placeholder="课程名称" />
       </el-form-item>
-      <el-form-item>
+      <el-form-item label="课程状态">
         <el-select
           v-model="courseQuery.status"
           clearable
           placeholder="课程状态">
-          <el-option :value="Normal" label="已发布" />
-          <el-option :value="Draft" label="未发布" />
+          <el-option :value="'Normal'" label="已发布" />
+          <el-option :value="'Draft'" label="未发布" />
         </el-select>
       </el-form-item>
       <el-form-item label="课程讲师">
         <el-select
-          v-model="teacherQuery.teacherId"
+          v-model="courseQuery.teacherId"
           clearable placeholder="课程讲师">
-          <el-option v-for="teacher in teacherList" :key="teahcer.id" :label="teacher.name" :value="teacher.id" />
+          <el-option v-for="teacher in teacherList" :key="teacher.id" :label="teacher.name" :value="teacher.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="课程一级分类">
         <el-select
-          v-model="teacherQuery.subjectParentId"
+          v-model="courseQuery.subjectParentId"
           clearable placeholder="课程讲师">
           <el-option v-for="subject in subjectParentList" :key="subject.id" :label="subject.label" :value="subject.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="课程二级分类">
         <el-select
-          v-model="teacherQuery.subjectId"
+          v-model="courseQuery.subjectId"
           clearable placeholder="课程讲师">
           <el-option v-for="subject in subjectList" :key="subject.id" :label="subject.label" :value="subject.id" />
         </el-select>
@@ -50,7 +50,7 @@
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="课程名称" width="80" />
+      <el-table-column prop="title" label="课程名称"  />
       <el-table-column label="课程状态" width="80">
         <template slot-scope="scope">
           {{ scope.row.status === 'Normal' ? "已发布" : "未发布" }}
@@ -58,12 +58,12 @@
       </el-table-column>
       <el-table-column prop="subjectParentName" label="课程一级分类" />
       <el-table-column prop="subjectName" label="课程二级分类" />
-      <el-table-column prop="lessonNum" label="课时数" />
-      <el-table-column prop="price" label="课程价格" />
-      <el-table-column prop="viewCount" label="浏览量" />
+      <el-table-column prop="lessonNum" label="课时数" width="80"/>
+      <el-table-column prop="price" label="课程价格" width="80"/>
+      <el-table-column prop="viewCount" label="浏览量" width="80"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/teacher/edit/' + scope.row.id">
+          <router-link :to="'/course/info/' + scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button
@@ -81,22 +81,24 @@
       :page-size="limit"
       layout="total,prev,pager,next,jumper"
       style="padding: 30px 0; text-align: center"
-      @current-change="getList"
-    ></el-pagination>
+      @current-change="getList"></el-pagination>
   </div>
 </template>
 <script>
-  import teacher from "@/api/edu/teacher";
+  import courseApi from "@/api/edu/course";
+  import teacherApi from '@/api/edu/teacher';
+  import subjectApi from '@/api/edu/subject';
   export default {
     data() {
       return {
         page: 1,
         limit: 10,
         courseQuery: {
-          title:'',
-          teacherId:'',
-          subjectParentId:'',
-          subjectId:''
+          titleLike:null,
+          teacherId:null,
+          subjectParentId:null,
+          subjectId:null,
+          status:null
         },
         list: null,
         total: 0,
@@ -108,12 +110,14 @@
     },
     created() {
       this.getList();
+      this.getTeacherList();
+      this.getSubjectList();
     },
     methods: {
       getList(page = 1) {
         this.page = page;
         this.listLoading = true;
-        teacher.getTeacherListPage(this.page, this.limit, this.courseQuery)
+        courseApi.getPageList(this.courseQuery, this.limit,this.page )
           .then((response) => {
             this.list = response.data.rows;
             this.total = response.data.total;
@@ -125,10 +129,11 @@
       },
       resetData() {
         this.courseQuery = {
-          title:'',
+          titleLike:'',
           teacherId:'',
           subjectParentId:'',
-          subjectId:''
+          subjectId:'',
+          status:''
         };
         this.getList();
       },
@@ -138,7 +143,7 @@
           cancelButtonText: "取消",
           type: "warning",
         }).then(() => {
-          teacher.deleteTeacherId(id).then((res) => {
+          courseApi.removeCourseById(id).then((res) => {
             this.$message({
               type: "success",
               message: "删除成功",
@@ -147,6 +152,27 @@
           }).catch((error) => {});
         });
       },
+      /**
+       * 获取所有讲师
+       */
+      getTeacherList(){
+        teacherApi.getAllTeacher().then(
+          response => {
+            this.teacherList = response.data.items;
+          }
+        ).catch();
+      },
+      /**
+       * 获取所有一级分类和二级分类
+       */
+      getSubjectList(){
+        subjectApi.getSubjectTree().then(
+          response => {
+            this.subjectParentList = response.data.list;
+            this.subjectList = this.subjectParentList[0].children;
+          }
+        ).catch();
+      }
     },
   };
 </script>
