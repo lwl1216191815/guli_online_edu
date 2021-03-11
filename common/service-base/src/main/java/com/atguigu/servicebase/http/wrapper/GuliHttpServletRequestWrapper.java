@@ -28,7 +28,9 @@ public class GuliHttpServletRequestWrapper extends HttpServletRequestWrapper {
             while (keySet.hasNext()){
                 String key = keySet.next();
                 if(map.get(key) != null){
-                    map.put(key,StrUtil.emptyToNull(map.get(key).toString()));
+                    String valueStr = map.get(key).toString().trim();
+                    valueStr = "null".equals(valueStr) ? null : valueStr;
+                    map.put(key,StrUtil.emptyToNull(valueStr));
                 }
             }
             this.body = JSONUtil.toJsonStr(map).getBytes();
