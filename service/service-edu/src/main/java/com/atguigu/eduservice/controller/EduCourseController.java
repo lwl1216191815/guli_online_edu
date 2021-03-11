@@ -122,7 +122,7 @@ public class EduCourseController {
     @DeleteMapping("{courseId}")
     @ApiOperation("根据ID删除课程")
     public R removeCourse(@PathVariable String courseId){
-        eduCourseService.removeById(courseId);
+        eduCourseService.deleteDetailById(courseId);
         return R.ok();
     }
 }
