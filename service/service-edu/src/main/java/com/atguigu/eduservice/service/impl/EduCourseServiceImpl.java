@@ -7,9 +7,11 @@ import com.atguigu.eduservice.entity.vo.CourseListVo;
 import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.atguigu.eduservice.entity.vo.CourseVo;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
+import com.atguigu.eduservice.service.EduChapterService;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
 import com.atguigu.servicebase.exception.GuliException;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.List;
 
 /**
@@ -32,6 +35,8 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
+    @Autowired
+    private EduChapterService eduChapterService;
     @Override
     public String saveCourse(CourseVo vo) {
         EduCourse entity = new EduCourse();
@@ -80,5 +85,17 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     public IPage<CourseListVo> pageList(Page<CourseListVo> coursePage, CourseQuery query) {
         IPage<CourseListVo> list = baseMapper.pageList(coursePage, query);
         return list;
+    }
+
+    @Override
+    public void deleteDetailById(String courseId) {
+        //删除章节、课时、视屏
+        eduChapterService.deleteChapterByCourseId(courseId);
+        //再删除课程
+        boolean b = removeById(courseId);
+        boolean b1 = eduCourseDescriptionService.removeById(courseId);
+        if(!b && !b1){
+            throw new GuliException(20001,"删除课程失败");
+        }
     }
 }
