@@ -12,8 +12,8 @@ public class TestOne {
     @Test
     public void testVod() throws ClientException {
         String regionId = "cn-shanghai";
-        String keyId = "LTAI4GKq8TbuW393QAPBNCjc";
-        String secret = "F1Z6SHUjNp2gNbPHC0stjL4loyCSPs";
+        String keyId = "xxx";
+        String secret = "xxx";
         DefaultProfile profile = DefaultProfile.getProfile(regionId,keyId,secret);
         DefaultAcsClient client = new DefaultAcsClient(profile);
         GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
