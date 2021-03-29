@@ -12,4 +12,10 @@ public interface EduVodService {
      * @return
      */
     String uploadVideo(MultipartFile file);
+
+    /**
+     * 删除阿里云上的视屏
+     * @param videoId
+     */
+    void removeVideo(String videoId);
 }
