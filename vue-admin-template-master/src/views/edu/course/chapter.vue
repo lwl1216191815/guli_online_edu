@@ -73,7 +73,25 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上传视频">
-          <!-- TODO -->
+          <el-upload
+            :on-success="handleVodUploadSuccess"
+            :on-remove="handleVodRemove"
+            :before-remove="beforeVodRemove"
+            :on-exceed="handleUploadExceed"
+            :file-list="fileList"
+            :action="BASE_API+'/eduVod/vod/uploadVideo'"
+            :limit="1"
+            class="upload-demo">
+            <el-button size="small" type="primary">上传视频</el-button>
+            <el-tooltip placement="right-end">
+              <div slot="content">最大支持1G，<br>
+                支持3GP、ASF、AVI、DAT、DV、FLV、F4V、<br>
+                GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、<br>
+                MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、<br>
+                SWF、TS、VOB、WMV、WEBM 等视频格式上传</div>
+              <i class="el-icon-question"/>
+            </el-tooltip>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -102,7 +120,11 @@
           title:'',
           sort:0,
           isFree:null,
-        }
+          videoSourceId:'',
+          videoOriginalName:''
+        },
+        fileList:[],
+        BASE_API:process.env.BASE_API
       }
     },
     created() {
@@ -296,7 +318,31 @@
         this.chapter.title = '';
         this.chapter.sort = 0;
         this.chapter.id = '';
+      },
+      /**
+       * 成功完成视屏上传后的操作
+       */
+      handleVodUploadSuccess(response,file,fileList){
+        this.video.videoOriginalName = file.filename;
+        this.video.videoSourceId = response.data.videoId;
+      },
+      /**
+       * 删除视屏处理
+       */
+      handleVodRemove(){},
+      /**
+       * 删除视屏之前处理
+       */
+      beforeVodRemove(){
+
+      },
+      /**
+       * 如果上传多个视屏的处理方式
+       */
+      handleUploadExceed(){
+        this.$message.warning('想要重新上传视屏，请先删除已上传的视屏');
       }
+
     }
 
   }
