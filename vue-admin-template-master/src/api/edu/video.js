@@ -43,4 +43,10 @@ export default {
       data: video
     });
   },
+  uploadVideo(){
+    return request({
+      url: `eduVod/vod/uploadVideo`,
+      method: 'post',
+    });
+  }
 }
