@@ -43,10 +43,13 @@ export default {
       data: video
     });
   },
-  uploadVideo(){
+  /**
+   * 上传视屏
+   */
+  removeALiYunVideo(videoId){
     return request({
-      url: `eduVod/vod/uploadVideo`,
-      method: 'post',
+      url: `eduVod/vod/${videoId}`,
+      method: 'delete',
     });
   }
 }
