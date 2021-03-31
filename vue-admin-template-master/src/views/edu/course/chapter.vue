@@ -323,18 +323,27 @@
        * 成功完成视屏上传后的操作
        */
       handleVodUploadSuccess(response,file,fileList){
-        this.video.videoOriginalName = file.filename;
+        this.video.videoOriginalName = file.name;
         this.video.videoSourceId = response.data.videoId;
       },
       /**
        * 删除视屏处理
        */
-      handleVodRemove(){},
+      handleVodRemove(file,fileList){
+        videoApi.removeALiYunVideo(this.video.videoSourceId).then(
+          response => {
+            this.$message({
+              type:'success',
+              message:response.message
+            });
+          }
+        ).catch();
+      },
       /**
        * 删除视屏之前处理
        */
-      beforeVodRemove(){
-
+      beforeVodRemove(file,fileList){
+        return this.$confirm(`确定移除${file.name}?`);
       },
       /**
        * 如果上传多个视屏的处理方式
