@@ -17,6 +17,11 @@ public class EduVodController {
     @Autowired
     private EduVodService eduVodService;
 
+    /**
+     * 上传视屏
+     * @param file
+     * @return
+     */
     @PostMapping("/uploadVideo")
     @ApiOperation("课时上传视屏")
     public R uploadVideo(MultipartFile file){
@@ -24,6 +29,11 @@ public class EduVodController {
         return R.ok().data("videoId",videoId);
     }
 
+    /**
+     * 根据视屏ID删除阿里云上的视屏
+     * @param videoId
+     * @return
+     */
     @DeleteMapping("{videoId}")
     @ApiOperation("删除视屏")
     public R deleteVideo(@PathVariable("videoId") @ApiParam(name = "videoId",value = "云端视屏ID",required = true) String videoId){
