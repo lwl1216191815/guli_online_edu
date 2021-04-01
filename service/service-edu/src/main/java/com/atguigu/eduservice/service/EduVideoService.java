@@ -18,4 +18,10 @@ public interface EduVideoService extends IService<EduVideo> {
      * @param courseId
      */
     void deleteByCourseId(String courseId);
+
+    /**
+     * 根据ID删除小节和视屏
+     * @param videoId
+     */
+    void deleteById(String videoId);
 }
