@@ -2,8 +2,8 @@ package com.atguigu.eduservice.controller;
 
 
 import com.atguigu.common.utils.R;
-import com.atguigu.eduservice.entity.EduVideo;
-import com.atguigu.eduservice.service.EduVideoService;
+import com.atguigu.eduservice.entity.EduLesson;
+import com.atguigu.eduservice.service.EduLessonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,58 +18,58 @@ import org.springframework.web.bind.annotation.*;
  * @since 2021-02-24
  */
 @RestController
-@RequestMapping("/eduservice/edu-video")
+@RequestMapping("/eduservice/edu-lesson")
 @CrossOrigin
 @Api(tags = "课时前端控制器")
-public class EduVideoController {
+public class EduLessonController {
     @Autowired
-    private EduVideoService eduVideoService;
+    private EduLessonService eduLessonService;
 
     /**
      * 添加课程小节
-     * @param eduVideo
+     * @param eduLesson
      * @return
      */
     @ApiOperation("添加课时（课程小节）")
-    @PostMapping("/addVideo")
-    public R addVideo(@RequestBody EduVideo eduVideo){
-        eduVideoService.save(eduVideo);
+    @PostMapping("/addLesson")
+    public R addLesson(@RequestBody EduLesson eduLesson){
+        eduLessonService.save(eduLesson);
         return R.ok();
     }
 
     /**
      * 修改课程小节
-     * @param video
+     * @param lesson
      * @return
      */
-    @PutMapping("/editVideo")
+    @PutMapping("/editLesson")
     @ApiOperation("修改课程小节（课时）")
-    public R modifyVideo(@RequestBody EduVideo video){
-        eduVideoService.updateById(video);
+    public R modifyLesson(@RequestBody EduLesson lesson){
+        eduLessonService.updateById(lesson);
         return R.ok();
     }
 
     /**
      * 根据ID获取课时详情
-     * @param videoId
+     * @param lessonId
      * @return
      */
-    @GetMapping("{videoId}")
+    @GetMapping("{lessonId}")
     @ApiOperation("根据ID获取课时详情")
-    public R getVideoById(@PathVariable String videoId){
-        EduVideo video = eduVideoService.getById(videoId);
-        return R.ok().data("video",video);
+    public R getLessonById(@PathVariable String lessonId){
+        EduLesson lesson = eduLessonService.getById(lessonId);
+        return R.ok().data("lesson",lesson);
     }
 
     /**
      * 根据ID删除课程小节
-     * @param videoId
+     * @param lessonId
      * @return
      */
-    @DeleteMapping("{videoId}")
+    @DeleteMapping("{lessonId}")
     @ApiOperation("根据ID删除课时")
-    public R removeVideoById(@PathVariable String videoId){
-        eduVideoService.deleteById(videoId);
+    public R removeLessonById(@PathVariable String lessonId){
+        eduLessonService.deleteById(lessonId);
         return R.ok();
     }
 }
