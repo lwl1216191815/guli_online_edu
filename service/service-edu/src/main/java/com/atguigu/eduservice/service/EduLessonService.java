@@ -1,6 +1,6 @@
 package com.atguigu.eduservice.service;
 
-import com.atguigu.eduservice.entity.EduVideo;
+import com.atguigu.eduservice.entity.EduLesson;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author liuwenlong
  * @since 2021-02-24
  */
-public interface EduVideoService extends IService<EduVideo> {
+public interface EduLessonService extends IService<EduLesson> {
 
     /**
      * 根据课程ID删除小节和视屏
