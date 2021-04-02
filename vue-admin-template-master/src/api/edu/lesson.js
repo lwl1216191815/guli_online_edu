@@ -3,48 +3,48 @@ import request from '@/utils/request'
 export default {
   /**
    * 根据小节ID获取课程小节
-   * @param videoId 课时ID
+   * @param lessonId 课时ID
    */
-  getVideoById(videoId) {
+  getLessonById(lessonId) {
     return request({
-      url: `eduservice/edu-video/${videoId}`,
+      url: `eduservice/edu-lesson/${lessonId}`,
       method: 'get',
     });
   },
   /**
    * 添加课时（课程小节）
-   * @param video 课程小节
+   * @param lesson 课程小节
    */
-  addVideo(video) {
+  addLesson(lesson) {
     return request({
-      url: `eduservice/edu-video/addVideo`,
+      url: `eduservice/edu-lesson/addLesson`,
       method: 'post',
-      data: video
+      data: lesson
     });
   },
   /**
    * 根据课时ID删除课时
-   * @param videoId 章节ID
+   * @param lessonId 章节ID
    */
-  removeVideo(videoId) {
+  removeLesson(lessonId) {
     return request({
-      url: `eduservice/edu-video/${videoId}`,
+      url: `eduservice/edu-lesson/${lessonId}`,
       method: 'delete',
     });
   },
   /**
    * 修改课时
-   * @param video 课时
+   * @param lesson 课时
    */
-  editVideo(video) {
+  editLesson(lesson) {
     return request({
-      url: `eduservice/edu-video/editVideo`,
+      url: `eduservice/edu-lesson/editLesson`,
       method: 'put',
       data: video
     });
   },
   /**
-   * 上传视屏
+   * 删除阿里云的视屏
    */
   removeALiYunVideo(videoId){
     return request({
