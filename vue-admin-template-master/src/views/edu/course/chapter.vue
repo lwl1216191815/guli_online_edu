@@ -23,12 +23,12 @@
         <!-- 小节列表 -->
         <ul class="chanpterList videoList">
           <li
-            v-for="video in chapter.children"
-            :key="video.id">
-            <p>{{ video.title }}
+            v-for="lesson in chapter.children"
+            :key="lesson.id">
+            <p>{{ lesson.title }}
               <span class="acts">
-                    <el-button style="" type="text" @click="openEditVideo(video.id)">编辑</el-button>
-                    <el-button type="text" @click="removeVideo(video.id)">删除</el-button>
+                    <el-button style="" type="text" @click="openEditLesson(lesson.id)">编辑</el-button>
+                    <el-button type="text" @click="removeVideo(lesson.id)">删除</el-button>
               </span>
             </p>
           </li>
@@ -59,15 +59,15 @@
 
     <!-- 添加和修改课时表单 -->
     <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时">
-      <el-form :model="video" label-width="120px">
+      <el-form :model="lesson" label-width="120px">
         <el-form-item label="课时标题">
-          <el-input v-model="video.title"/>
+          <el-input v-model="lesson.title"/>
         </el-form-item>
         <el-form-item label="课时排序">
-          <el-input-number v-model="video.sort" :min="0" controls-position="right"/>
+          <el-input-number v-model="lesson.sort" :min="0" controls-position="right"/>
         </el-form-item>
         <el-form-item label="是否免费">
-          <el-radio-group v-model="video.isFree">
+          <el-radio-group v-model="lesson.isFree">
             <el-radio :label="true">免费</el-radio>
             <el-radio :label="false">默认</el-radio>
           </el-radio-group>
@@ -103,7 +103,7 @@
 </template>
 <script>
   import chapterApi from '@/api/edu/chapter';
-  import videoApi from '@/api/edu/video';
+  import videoApi from '@/api/edu/lesson';
   export default {
     data() {
       return {
@@ -116,7 +116,7 @@
           title:'',
           sort:0
         },
-        video:{
+        lesson:{
           title:'',
           sort:0,
           isFree:null,
@@ -130,7 +130,7 @@
     created() {
       if(this.$route.params && this.$route.params.id){
         this.chapter.courseId = this.$route.params.id;
-        this.video.courseId = this.$route.params.id;
+        this.lesson.courseId = this.$route.params.id;
         this.getChapterVideo(this.chapter.courseId);
       }
     },
@@ -189,9 +189,9 @@
        * 打开小节
        */
       openVideo(chapterId){
-        this.video.chapterId = chapterId;
+        this.lesson.chapterId = chapterId;
         this.dialogVideoFormVisible = true;
-        this.video.courseId = this.chapter.courseId;
+        this.lesson.courseId = this.chapter.courseId;
       },
       /**
        * 打开编辑章节弹框,并且回显章节表单
@@ -257,14 +257,14 @@
         ).catch();
       },
       editVideo(){
-        videoApi.editVideo(this.video).then(
+        videoApi.editVideo(this.lesson).then(
           response => {
             //关闭弹窗
             this.dialogVideoFormVisible = false;
             //提示信息
             this.$message({type:'success',message:'修改小节成功'});
             //刷新页面
-            this.getChapterVideo(this.video.courseId);
+            this.getChapterVideo(this.lesson.courseId);
             //清空video
             this.clearVideo();
           }
@@ -274,7 +274,7 @@
        * 保存或者修改小节
        */
       saveOrUpdateVideo(){
-        if(this.video.id){
+        if(this.lesson.id){
           this.editVideo();
         }else {
           this.addVideo();
@@ -284,33 +284,33 @@
        * 添加课时
        */
       addVideo(){
-        videoApi.addVideo(this.video).then(
+        videoApi.addVideo(this.lesson).then(
           response => {
             this.dialogVideoFormVisible = false;//关闭弹窗
             //提示信息
             this.$message({type:'success',message:'添加课时成功'});
             //刷新列表
-            this.getChapterVideo(this.video.courseId);
+            this.getChapterVideo(this.lesson.courseId);
             //清空video
-            this.clearVideo();
+            this.clearLesson();
           }
         ).catch();
       },
-      clearVideo(){
-        this.video.title = '';
-        this.video.sort = 0;
-        this.video.isFree = null;
-        this.video.chapterId = '';
+      clearLesson(){
+        this.lesson.title = '';
+        this.lesson.sort = 0;
+        this.lesson.isFree = null;
+        this.lesson.chapterId = '';
       },
       /**
        * 打开video编辑信息
-       * @param video
+       * @param lesson
        */
-      openEditVideo(videoId){
+      openEditLesson(videoId){
         this.dialogVideoFormVisible = true;
-        videoApi.getVideoById(videoId).then(
+        videoApi.getLessonById(videoId).then(
           response => {
-            this.video = response.data.video;
+            this.lesson = response.data.lesson;
           }
         ).catch();
       },
@@ -323,14 +323,14 @@
        * 成功完成视屏上传后的操作
        */
       handleVodUploadSuccess(response,file,fileList){
-        this.video.videoOriginalName = file.name;
-        this.video.videoSourceId = response.data.videoId;
+        this.lesson.videoOriginalName = file.name;
+        this.lesson.videoSourceId = response.data.videoId;
       },
       /**
        * 删除视屏处理
        */
       handleVodRemove(file,fileList){
-        videoApi.removeALiYunVideo(this.video.videoSourceId).then(
+        videoApi.removeALiYunVideo(this.lesson.videoSourceId).then(
           response => {
             this.$message({
               type:'success',
