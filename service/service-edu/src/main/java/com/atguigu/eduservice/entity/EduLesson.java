@@ -24,8 +24,8 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="EduVideo对象", description="课程视频（章节中的每一小节）")
-public class EduVideo implements Serializable {
+@ApiModel(value="EduLesson对象", description="课程视频（章节中的每一小节）")
+public class EduLesson implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
