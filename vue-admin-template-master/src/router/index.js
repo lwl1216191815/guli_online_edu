@@ -133,23 +133,30 @@ export const constantRouterMap = [
 
 
   {
-    path: '/example',
+    path: '/banner',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/banner/list',
+    name: 'banner',
+    meta: { title: '综合管理', icon: 'example' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'list',
+        name: 'list',
+        component: () => import('@/views/crm/banner/list'),
+        meta: { title: '轮播图管理', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'add',
+        name: 'add',
+        component: () => import('@/views/crm/banner/add'),
+        meta: { title: '添加轮播图', icon: 'tree' }
+      },
+      {
+        path: 'edit/:id',
+        name: 'edit',
+        component: () => import('@/views/crm/banner/add'),
+        meta: { title: '修改轮播图', icon: 'tree' },
+        hidden: true
       }
     ]
   },
