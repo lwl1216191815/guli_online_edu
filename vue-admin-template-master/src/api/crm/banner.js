@@ -43,5 +43,15 @@ export default {
       method:'put',
       data:banner
     });
+  },
+  /**
+   * 根据ID删除banner
+   * @param id 轮播图的ID
+   */
+  deleteBannerById(id){
+    return request({
+      url:`eduCms/crm-banner/admin/${id}`,
+      method:'delete'
+    });
   }
 }
