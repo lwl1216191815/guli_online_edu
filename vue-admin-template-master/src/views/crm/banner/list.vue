@@ -61,7 +61,7 @@
           cancelButtonText: "取消",
           type: "warning",
         }).then(() => {
-          teacher.deleteTeacherId(id).then((res) => {
+          bannerApi.deleteBannerById(id).then((res) => {
             this.$message({
               type: "success",
               message: "删除成功",
