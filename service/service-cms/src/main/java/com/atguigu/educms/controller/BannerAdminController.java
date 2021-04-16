@@ -79,5 +79,18 @@ public class BannerAdminController {
         return R.ok();
     }
 
+    /**
+     * 根据ID获取轮播图详情
+     * @param bannerId
+     * @return
+     */
+    @ApiOperation("根据bannerId获取banner")
+    @GetMapping("/{bannerId}")
+    public R getBannerById(@PathVariable("bannerId")
+                               @ApiParam(name = "bannerId",value = "需要查询的轮播图ID",required = true) String bannerId){
+        CrmBanner data = crmBannerService.getById(bannerId);
+        return R.ok().data("item",data);
+    }
+
 }
 
