@@ -98,4 +98,13 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
             throw new GuliException(20001,"删除课程失败");
         }
     }
+
+    @Override
+    public List<EduCourse> getPopularCourse(Integer limit) {
+        QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        wrapper.last("limit " + limit);
+        List<EduCourse> list = this.list(wrapper);
+        return list;
+    }
 }
