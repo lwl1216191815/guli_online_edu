@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 课程信息表 服务类
@@ -57,4 +59,11 @@ public interface EduCourseService extends IService<EduCourse> {
      * @param courseId
      */
     void deleteDetailById(String courseId);
+
+    /**
+     * 获取排名前limit的热门课程
+     * @param limit
+     * @return
+     */
+    List<EduCourse> getPopularCourse(Integer limit);
 }
