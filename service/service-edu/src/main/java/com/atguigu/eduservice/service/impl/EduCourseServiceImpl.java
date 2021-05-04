@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Wrapper;
@@ -99,6 +100,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         }
     }
 
+    @Cacheable(value = "course",key = "'selectPopularList'")
     @Override
     public List<EduCourse> getPopularCourse(Integer limit) {
         QueryWrapper<EduCourse> wrapper = new QueryWrapper<>();
