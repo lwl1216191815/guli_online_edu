@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@Service
+//@Service
 public class SMSServiceImpl implements ISMSservice {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
