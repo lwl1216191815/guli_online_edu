@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"com.atguigu"})
 public class SmsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SmsApplication.class);
+        SpringApplication.run(SmsApplication.class,args);
         System.out.println("在线教育验证码系统启动成功");
     }
 }
